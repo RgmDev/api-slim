@@ -16,6 +16,14 @@ return function (App $app) {
         return $container->get('renderer')->render($response, 'index.phtml', $args);
     });
 
+    $app->get('/test/test', function (Request $request, Response $response, array $args) use ($container) {
+        // Sample log message
+        $container->get('logger')->info("Slim-Skeleton '/test' route");
+
+        // Render index view
+        return $container->get('renderer')->render($response, 'index.phtml', $args);
+    });
+
     $app->post('/auth/login', function (Request $request, Response $response, array $args) {
 	 
 	    $input = $request->getParsedBody();
@@ -59,4 +67,7 @@ return function (App $app) {
 	    });
 	   
 	});
+
+
+
 };
