@@ -4,11 +4,22 @@
 
 CRUD API REST con integración de validación de usuarios por token (JWT)
 
+## Cosas
+- Logs 
+- Despliegue & instalacion 
+
+
+
 ## Dependencias
-- php 
-- mysql
-- slim-skeleton
-- toola
+- guide (https://arjunphp.com/secure-web-services-using-jwt-slim3-framework/)
+- php (https://www.php.net/)
+- mysql (https://www.mysql.com/)
+- php-slim (http://www.slimframework.com/)
+- php-slim-skeleton (https://github.com/slimphp/Slim-Skeleton)
+- tuupola (JWT php slim) (https://github.com/tuupola/slim-jwt-auth)
+- bootstrap (https://getbootstrap.com/)
+- jquery (https://jquery.com/)
+- ionicons (https://ionicons.com/)
 
 ## Entorno 
 Host: Ubuntu 18
