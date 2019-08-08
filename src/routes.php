@@ -24,10 +24,10 @@ return function (App $app) {
 
     $app->get('/test/test', function (Request $request, Response $response, array $args) use ($container) {
         // Sample log message
-        $container->get('logger')->info("Slim-Skeleton '/test' route");
+		$container->get('logger')->info("Slim-Skeleton '/test' route");
 
         // Render index view
-        return $container->get('renderer')->render($response, 'index.phtml', $args);
+		return $container->get('renderer')->render($response, 'index.phtml', $args);
 	});
 	
 	$app->get('/panel',function(Request $request, Response $response, array $args) use ($container){
@@ -53,9 +53,8 @@ return function (App $app) {
 	        return $this->response->withJson(['error' => true, 'message' => 'These credentials do not match our records.']);  
 	    }
 	 
-	    $settings = $this->get('settings'); // get settings array.
-	    
-	    $token = JWT::encode(['id' => $user->id, 'email' => $user->email], $settings['jwt']['secret'], "HS256");
+	    $settings = $this->get('settings');
+	    $token = JWT::encode(['id' => $user->id, 'email' => $user->email], $settings['jwt']['secret'], $settings['jwt']['algorithm']);
 	 
 	    return $this->response->withJson(['token' => $token]);
 	 
@@ -72,10 +71,11 @@ return function (App $app) {
 			
 			$sql = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (:fist_name, :last_name, :email, :password, :created_at, :updated_at)";
 			$sth = $this->db->prepare($sql);
+			$pass = password_hash($input['password'], PASSWORD_BCRYPT);
 			$sth->bindParam("fist_name", $input['firstname']);
 			$sth->bindParam("last_name", $input['lastname']);
 			$sth->bindParam("email", $input['email']);
-			$sth->bindParam("password", $input['password']);
+			$sth->bindParam("password", $pass);
 			$sth->bindParam("created_at", date("Y-m-d H:i:s"));
 			$sth->bindParam("updated_at", date("Y-m-d H:i:s"));
 			$sth->execute();
@@ -87,12 +87,33 @@ return function (App $app) {
 
 			$id = $request->getAttribute('id');
 			
-			$sql = "DELETE FROM users WHERE id = :id_user";
+			$sql = "DELETE FROM users WHERE id = :id";
 			$sth = $this->db->prepare($sql);
-			$sth->bindParam("id_user", $id);
+			$sth->bindParam("id", $id);
 			$sth->execute();
 
-			return $this->response->withJson(['out' => 'Eliminado.']);
+			return $this->response->withJson(['out' => 'Deleted.']);
+		});
+
+		$app->put('/user/update',function(Request $request, Response $response, array $args) {
+
+			
+			$input = $request->getParsedBody();
+			
+			
+			$sql = "UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email, password=:password, updated_at=:updated_at  WHERE id=:id";
+			
+			$sth = $this->db->prepare($sql);
+			$sth->bindParam("id", $input['id']);
+			$sth->bindParam("first_name", $input['firstname']);
+			$sth->bindParam("last_name", $input['lastname']);
+			$sth->bindParam("email", $input['email']);
+			$sth->bindParam("password", $input['password']);
+			$sth->bindParam("updated_at", date("Y-m-d H:i:s"));
+			$sth->execute();
+
+			return $this->response->withJson(['out' => 'Updated.']);
+			
 		});
 
 		
@@ -100,25 +121,19 @@ return function (App $app) {
 	        print_r($request->getAttribute('decoded_token_data'));
 	 
 	        /*output 
-	        stdClass Object
-	            (
+	        stdClass Object(
 	                [id] => 2
 	                [email] => arjunphp@gmail.com
-	            )
-	                    
+	            )       
 	        */
 		});
 		
 		$app->get('/users',function(Request $request, Response $response, array $args) {
-			// print_r($request->getAttribute('decoded_token_data'));
-			
-			// $input = $request->getParsedBody();
 			$sql = "SELECT * FROM users";
 			$sth = $this->db->prepare($sql);
 			$sth->execute();
 			$users = $sth->fetchAll();
 
-			// print(json_encode($users));
 			return $this->response->withJson($users);
 	    });
 	   

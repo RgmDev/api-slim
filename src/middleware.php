@@ -4,14 +4,16 @@ use Slim\App;
 
 return function (App $app) {
 
-    // e.g: $app->add(new \Slim\Csrf\Guard);
-
-    // Application middleware JWT
+	// e.g: $app->add(new \Slim\Csrf\Guard);
+	
+	// Application middleware JWT
+	$algorithm = $app->getContainer()['settings']['jwt']['algorithm']; 
+	$secret = $app->getContainer()['settings']['jwt']['secret'];
 	$app->add(new \Tuupola\Middleware\JwtAuthentication([
 	    "path" => "/api", 
 	    "attribute" => "decoded_token_data",
-	    "secret" => "supersecretkeyyoushouldnotcommittogithub",
-	    "algorithm" => ["HS256"],
+	    "secret" => $secret,
+		"algorithm" => $algorithm,
 	    "error" => function ($response, $arguments) {
 	        $data["status"] = "error";
 	        $data["message"] = $arguments["message"];
@@ -22,3 +24,4 @@ return function (App $app) {
 	]));
 
 };
+

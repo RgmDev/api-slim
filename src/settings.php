@@ -27,6 +27,7 @@ return [
         // jwt settings
         'jwt' => [
             'secret' => 'supersecretkeyyoushouldnotcommittogithub',
+            'algorithm' => 'HS256'
         ]
     ],
 ];

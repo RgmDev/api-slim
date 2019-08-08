@@ -6,7 +6,8 @@ CRUD API REST con integración de validación de usuarios por token (JWT)
 
 ## Cosas
 - Logs 
-- Despliegue & instalacion 
+- Despliegue & instalacion
+- Token Expired 
 
 
 
