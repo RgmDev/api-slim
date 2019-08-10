@@ -20,8 +20,8 @@ return [
         'db' => [
             'host' => 'localhost',
             'dbname' => 'api_slim',
-            'user' => 'user',
-            'pass' => 'pass',
+            'user' => '',
+            'pass' => '',
         ],
 
         // jwt settings

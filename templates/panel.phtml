@@ -7,13 +7,24 @@
     <meta name="author" content="Ruben GM">
     <title>API Panel</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Bootswatch -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css">
 
     <style>
-   
+
+      body {
+        /* font-size: .875rem; */
+        margin-top: 60px; 
+      }
+
       .container {
         max-width: 1920px;
+      }
+
+      .feather {
+        width: 16px;
+        height: 16px;
+        vertical-align: text-bottom;
       }
 
       .border-top { border-top: 1px solid #e5e5e5; }
@@ -38,72 +49,6 @@
           font-size: 3.5rem;
         }
       }
-
-      body {
-        /* font-size: .875rem; */
-        margin-top: 60px; 
-      }
-
-      .feather {
-        width: 16px;
-        height: 16px;
-        vertical-align: text-bottom;
-      }
-
-      /*
-      * Sidebar
-      */
-
-      .sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100; /* Behind the navbar */
-        padding: 48px 0 0; /* Height of navbar */
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-      }
-
-      .sidebar-sticky {
-        position: relative;
-        top: 0;
-        height: calc(100vh - 48px);
-        padding-top: .5rem;
-        overflow-x: hidden;
-        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-      }
-
-      @supports ((position: -webkit-sticky) or (position: sticky)) {
-        .sidebar-sticky {
-          position: -webkit-sticky;
-          position: sticky;
-        }
-      }
-
-      .sidebar .nav-link {
-        font-weight: 500;
-        color: #333;
-      }
-
-      .sidebar .nav-link .feather {
-        margin-right: 4px;
-        color: #999;
-      }
-
-      .sidebar .nav-link.active {
-        color: #007bff;
-      }
-
-      .sidebar .nav-link:hover .feather,
-      .sidebar .nav-link.active .feather {
-        color: inherit;
-      }
-
-      .sidebar-heading {
-        font-size: .75rem;
-        text-transform: uppercase;
-      }
-
       /*
       * Content
       */
@@ -130,6 +75,10 @@
         box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
       }
 
+      .nav-link{
+        color: white;
+      }
+
       .navbar .form-control {
         padding: .75rem 1rem;
         border-width: 0;
@@ -147,143 +96,184 @@
         box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
       }
 
+      .form-control:disabled, .form-control[readonly]{
+        background-color: #a08686;
+      }
+
     </style>
 
   </head>
   <body class="container">
 
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CRUD Php Slim & JWT</a>
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
-        </li>
-      </ul>
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark navbar-light p-0 bg-light">
+      <a class="navbar-brand pl-3 pr-3" href="#">CRUD Php Slim & JWT</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" style="text-align: right;" id="navbarText">
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <span id="email-user" class="nav-link" href="#">Link</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
-<div class="container-fluid">
-  <div class="row">
+    <div class="container-fluid">
+      <div class="row">
 
-    <h1>CRUD Users</h1>   
-    <div class="table-responsive">
-      <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">Add User</button>
-      <table class="table table-striped table-sm" id="table-users">
-        <thead>
-          <tr>
-            <th>Actions</th>
-            <th>#</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>email</th>
-            <th>password</th>
-            <th>cerated_at</th>
-            <th>updated_at</th>
-          </tr>
-        </thead>
-        <tbody id="container-table">
-        </tbody>
-      </table>
-    </div>
+        <h1>CRUD Users</h1>   
+        <div class="table-responsive">
+          <button type="button" class="btn btn-primary mb-3" onclick="$('#formAddUser').trigger('reset');" data-toggle="modal" data-target="#addUserModal">Add User</button>
+          <table class="table table-striped table-sm" id="table-users">
+            <thead>
+              <tr>
+                <th>Actions</th>
+                <th>#</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>password</th>
+                <th>cerated_at</th>
+                <th>updated_at</th>
+              </tr>
+            </thead>
+            <tbody id="container-table">
+            </tbody>
+          </table>
+        </div>
 
-    <!-- modal addUSer-->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUSerModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addUSerModalLabel">New user</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
+        <!-- modal addUSer-->
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUSerModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addUSerModalLabel">New user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
 
-            <form id="formAddUser" onsubmit="addUSer(); return false;">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="firstName">First name</label>
-                  <input type="text" class="form-control" id="au_firstName" placeholder="Jonh" value="" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName">Last name</label>
-                  <input type="text" class="form-control" id="au_lastName" placeholder="Doe" value="" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="au_email" placeholder="you@example.com" required>
-              </div>
-              <div class="mb-3">
-                <label for="username">Password</label>
-                <input type="password" class="form-control" id="au_password" placeholder="secret..." required>
-              </div>
-              <hr class="mb-4">
-              <div class="row justify-content-center">
-                <div class="col-auto">
-                  <button type="button" id="au-btn-cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                  <button class="btn btn-primary" type="submit">Add User</button>
-                </div>
-              </div>
-            </form>
+                <form id="formAddUser" onsubmit="addUSer(); return false;">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName">First name</label>
+                      <input type="text" class="form-control" id="au_firstName" placeholder="Jonh" value="" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName">Last name</label>
+                      <input type="text" class="form-control" id="au_lastName" placeholder="Doe" value="" required>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="au_email" placeholder="you@example.com" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="username">Password</label>
+                    <input type="password" class="form-control" id="au_password" placeholder="secret..." required>
+                  </div>
+                  <hr class="mb-4">
+                  <div class="row justify-content-center">
+                    <div class="col-auto">
+                      <button type="button" id="au-btn-cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <button class="btn btn-primary" type="submit">Add User</button>
+                    </div>
+                  </div>
+                </form>
 
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- modal updateUSer-->
-    <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="updateUserModalLabel">Update user</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
+        <!-- modal deleteUSer-->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Delete user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
 
-            <form id="formUpdateUser" onsubmit="updateUSer(); return false;">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="firstName">First name</label>
-                  <input type="text" class="form-control" id="uu_firstName" placeholder="Jonh" value="" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName">Last name</label>
-                  <input type="text" class="form-control" id="uu_lastName" placeholder="Doe" value="" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="uu_email" placeholder="you@example.com" required disabled>
-              </div>
-              <div class="mb-3">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="uu_change_pass" value="">
-                  <label class="form-check-label" for="inlineCheckbox1">Change password</label>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="username">Password</label>
-                <input type="password" class="form-control" id="uu_password" placeholder="" disabled>
-              </div>
-              <input type="hidden" id="uu_id">
-              <hr class="mb-4">
-              <div class="row justify-content-center">
-                <div class="col-auto">
-                  <button type="button" id="uu-btn-cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                  <button class="btn btn-primary" type="submit">Update User</button>
-                </div>
-              </div>
-            </form>
+                <form id="formDeleteUser" onsubmit="deleteUser(this); return false;">
+                  <p>Are you sure?</p>
+                  <hr class="mb-4">
+                  <input type="hidden" id="du_id">
+                  <div class="row justify-content-center">
+                    <div class="col-auto">
+                      <button type="button" id="du-btn-cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <button class="btn btn-primary" type="submit">Yes</button>
+                    </div>
+                  </div>
+                </form>
 
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- modal updateUSer-->
+        <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateUserModalLabel">Update user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form id="formUpdateUser" onsubmit="updateUSer(); return false;">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName">First name</label>
+                      <input type="text" class="form-control" id="uu_firstName" placeholder="Jonh" value="" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName">Last name</label>
+                      <input type="text" class="form-control" id="uu_lastName" placeholder="Doe" value="" required>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="uu_email" placeholder="you@example.com" required disabled>
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="uu_change_pass" value="changePass">
+                      <label class="form-check-label" for="inlineCheckbox1">Change password</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="username">Password</label>
+                    <input type="password" class="form-control" id="uu_password" placeholder="" disabled>
+                  </div>
+                  <input type="hidden" id="uu_id">
+                  <hr class="mb-4">
+                  <div class="row justify-content-center">
+                    <div class="col-auto">
+                      <button type="button" id="uu-btn-cancel" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <button class="btn btn-primary" type="submit">Update User</button>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-
-  </div>
-</div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -318,9 +308,9 @@
 
         $.ajax(settings)
           .done(function (data){
-            var users = data;
-            $.each(data, function(idx, opt) {
-              $("#container-table").append('<tr><td class="align-middle"><button type="button" onclick="deleteUser('+opt.id+');" class="btn btn-danger mr-2"><ion-icon name="trash"></button><button type="button" data-toggle="modal" data-target="#updateUserModal" onclick="loadUpdateUser(\''+opt.email+'\');" class="btn btn-warning"></ion-icon><ion-icon name="create"></ion-icon></button></td><td class="align-middle">'+opt.id+'</td><td class="align-middle">'+opt.first_name+'</td><td class="align-middle">'+opt.last_name+'</td><td class="align-middle">'+opt.email+'</td><td class="align-middle">'+opt.password+'</td><td class="align-middle">'+opt.created_at+'</td><td class="align-middle">'+opt.updated_at+'</td></tr>');
+            $("#email-user").html(data.user);
+            $.each(data.users, function(idx, opt) {
+              $("#container-table").append('<tr><td class="align-middle"><button type="button" data-toggle="modal" data-target="#deleteUserModal" onclick="loadDeleteUser('+opt.id+');" class="btn btn-danger mr-2"><ion-icon name="trash"></button><button type="button" data-toggle="modal" data-target="#updateUserModal" onclick="loadUpdateUser(\''+opt.email+'\');" class="btn btn-warning"></ion-icon><ion-icon name="create"></ion-icon></button></td><td class="align-middle">'+opt.id+'</td><td class="align-middle">'+opt.first_name+'</td><td class="align-middle">'+opt.last_name+'</td><td class="align-middle">'+opt.email+'</td><td class="align-middle">'+opt.password+'</td><td class="align-middle">'+opt.created_at+'</td><td class="align-middle">'+opt.updated_at+'</td></tr>');
             });
           })
           .fail(function(jqXHR, textStatus, errorThrown){
@@ -364,27 +354,32 @@
 
       }
 
-      function deleteUser(id_user){
+      function loadDeleteUser(id){
+        $("#du_id").val(id);
+      }
 
-        var settings = {
-          "async": true,
-          "crossDomain": true,
-          "url": "http://localhost/proyectos/api-slim/public/api/user/delete/" + id_user,
-          "method": "DELETE",
-          "headers": {
-            "Authorization": "Bearer " + localStorage.token,
-            "cache-control": "no-cache"
+      function deleteUser(form){
+
+          var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost/proyectos/api-slim/public/api/user/delete/" + form.du_id.value,
+            "method": "DELETE",
+            "headers": {
+              "Authorization": "Bearer " + localStorage.token,
+              "cache-control": "no-cache"
+            }
           }
-        }
 
-        $.ajax(settings)
-          .done(function (data){
-            getUsers();
-          })
-          .fail(function(jqXHR, textStatus, errorThrown){
-            alert( "error" );
-          });
-
+          $.ajax(settings)
+            .done(function (data){
+              $("#du-btn-cancel").click();
+              getUsers();
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+              alert( "error" );
+            });
+        
       }
 
       function loadUpdateUser(email){
@@ -393,7 +388,15 @@
         $("#uu_firstName").val(obj[2].textContent);
         $("#uu_lastName").val(obj[3].textContent);
         $("#uu_email").val(obj[4].textContent);
+        $("#uu_password").prop("disabled", true);
+        $("#uu_password").prop("required", false);
+        $('#uu_change_pass').prop("checked", false);
       }
+
+      $("#uu_change_pass").click(function(){
+        $("#uu_password").prop("disabled", !$('#uu_change_pass').prop("checked") );
+        $("#uu_password").prop("required", $('#uu_change_pass').prop("checked"));
+      });
 
       function updateUSer(){
 
@@ -402,6 +405,7 @@
           firstname : $("#uu_firstName").val(),
           lastname : $("#uu_lastName").val(),
           email : $("#uu_email").val(), 
+          sw_password : $("#uu_change_pass").prop("checked"),
           password : $("#uu_password").val()
         });
 
