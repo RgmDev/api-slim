@@ -298,7 +298,7 @@
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost/proyectos/api-slim/public/api/users",
+          "url": "api/users",
           "method": "GET",
           "headers": {
             "Authorization": "Bearer " + localStorage.token,
@@ -315,7 +315,7 @@
           })
           .fail(function(jqXHR, textStatus, errorThrown){
             alert('Error: ' + jqXHR.statusText);
-            window.location.href="http://localhost/proyectos/api-slim/public/";
+            window.location.href="/";
           });
 
       }
@@ -332,7 +332,7 @@
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost/proyectos/api-slim/public/api/user/add",
+          "url": "api/user/add",
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
@@ -363,7 +363,7 @@
           var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost/proyectos/api-slim/public/api/user/delete/" + form.du_id.value,
+            "url": "api/user/delete/" + form.du_id.value,
             "method": "DELETE",
             "headers": {
               "Authorization": "Bearer " + localStorage.token,
@@ -412,7 +412,7 @@
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost/proyectos/api-slim/public/api/user/update",
+          "url": "api/user/update",
           "method": "PUT",
           "headers": {
             "Content-Type": "application/json",
@@ -436,7 +436,7 @@
 
       function signOut(){
         localStorage.clear();
-        window.location.href="http://localhost/proyectos/api-slim/public/";
+        window.location.href="/";
       }
 
     </script>
