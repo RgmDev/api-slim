@@ -1,6 +1,4 @@
-# Readme
-
-## CRUD API Rest & JWT
+# CRUD API Rest & JWT
 
 - Add Postman doc???
 
@@ -36,4 +34,5 @@ composer update
 ```sh
 composer start
 ```
-6. Sign in with user@pass/pass
+6. Open browser and go to http://localhost:8080
+7. Sign in with user@pass/pass
