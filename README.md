@@ -27,8 +27,8 @@ php composer.phar create-project slim/slim-skeleton [my-app-name]
 CREATE DATABASE IF NOT EXISTS api_slim;
 USE api_slim;
 
-DROP TABLE users;
-CREATE TABLE IF NOT EXISTS users(
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(
   id int(10) UNSIGNED NOT NULL,
   first_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   last_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
