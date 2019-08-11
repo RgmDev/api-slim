@@ -24,28 +24,27 @@ php composer.phar create-project slim/slim-skeleton [my-app-name]
 
 ## Database
 ```sql
-CREATE IF NOT EXISTS DATABASE api_slim;
+CREATE DATABASE IF NOT EXISTS api_slim;
 USE api_slim;
 
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+CREATE TABLE IF NOT EXISTS users(
+  id int(10) UNSIGNED NOT NULL,
+  first_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  last_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  email varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  password varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+ALTER TABLE users
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY users_email_unique (email);
 
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE users
+  MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'user', 'pass', 'user@pass', '$2y$10$ITIN3SaPqeZ4IYYg3YpSweGU83ObnLkqeG1FkdWjzb5eeOZd5S6zC', '2019-08-10 22:45:30', '2019-08-10 23:22:13');
+INSERT INTO users (first_name, last_name, email, password) VALUES ('user', 'pass', 'user@pass', '$2y$10$ITIN3SaPqeZ4IYYg3YpSweGU83ObnLkqeG1FkdWjzb5eeOZd5S6zC');
 ```
 
 
