@@ -2,6 +2,8 @@
 
 ## CRUD API Rest & JWT
 
+- Add Postman doc???
+
 ## Build with... (versions???)
 - php (https://www.php.net/)
 - mysql (https://www.mysql.com/)
@@ -14,67 +16,24 @@
 - jquery (https://jquery.com/)
 
 
+## Misc
+API Rest
+- GET
+- POST
+- PUT
+- DELETE
 
-## Desarrollo 
 
-- Instalar slim-skeleton
+## Install 
+1. Clone the repository
+2. Install the database (database.sql)
+3. Fill the user/pass fields for database in src/settings.php
+4. Update dependencies
 ```sh
-php composer.phar create-project slim/slim-skeleton [my-app-name]
+composer update
 ```
-
-## Database
-```sql
-CREATE DATABASE IF NOT EXISTS api_slim;
-USE api_slim;
-
-DROP TABLE IF EXISTS users;
-CREATE TABLE users(
-  id int(10) UNSIGNED NOT NULL,
-  first_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  last_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  email varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  password varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-ALTER TABLE users
-  ADD PRIMARY KEY (id),
-  ADD UNIQUE KEY users_email_unique (email);
-
-ALTER TABLE users
-  MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
--- pass
-INSERT INTO users (first_name, last_name, email, password) VALUES ('user', 'pass', 'user@pass', '$2y$10$ITIN3SaPqeZ4IYYg3YpSweGU83ObnLkqeG1FkdWjzb5eeOZd5S6zC');
+5. Start app 
+```sh
+composer start
 ```
-
-
-
-# Slim Framework 3 Skeleton Application
-
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
-
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
-
-## Install the Application
-
-Run this command from the directory in which you want to install your new Slim Framework application.
-
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
-
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
-
-To run the application in development, you can run these commands 
-
-	cd [my-app-name]
-	php composer.phar start
-
-Run this command in the application directory to run the test suite
-
-	php composer.phar test
-
-That's it! Now go build something cool.
+6. Sign in with user@pass/pass
