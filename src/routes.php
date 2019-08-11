@@ -60,7 +60,7 @@ return function (App $app) {
 			
 			try {
 				$input = $request->getParsedBody();
-				$sql = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (:fist_name, :last_name, :email, :password, :created_at, :updated_at)";
+				$sql = "INSERT INTO users (first_name, last_name, email, password) VALUES (:fist_name, :last_name, :email, :password)";
 				$sth = $this->db->prepare($sql);
 				$pass = password_hash($input['password'], PASSWORD_BCRYPT);
 				$now = date("Y-m-d H:i:s");
@@ -68,8 +68,6 @@ return function (App $app) {
 				$sth->bindParam("last_name", $input['lastname']);
 				$sth->bindParam("email", $input['email']);
 				$sth->bindParam("password", $pass);
-				$sth->bindParam("created_at", $now);
-				$sth->bindParam("updated_at", $now);
 				$sth->execute();
 			} catch(PDOException $e) {
 				$container->get('logger')->info("/api/user/add Error: ".$e->getMessage().")");
@@ -102,20 +100,18 @@ return function (App $app) {
 			try{	
 				$input = $request->getParsedBody();
 				if($input['sw_password']){
-					$sql = "UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email, password=:password, updated_at=:updated_at  WHERE id=:id";
+					$sql = "UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email, password=:password WHERE id=:id";
 					$sth = $this->db->prepare($sql);
 					$pass = password_hash($input['password'], PASSWORD_BCRYPT);
 					$sth->bindParam("password", $pass);
 				}else{
-					$sql = "UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email, updated_at=:updated_at  WHERE id=:id";
+					$sql = "UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email WHERE id=:id";
 					$sth = $this->db->prepare($sql);
 				}
-				$now = date("Y-m-d H:i:s");
 				$sth->bindParam("id", $input['id']);
 				$sth->bindParam("first_name", $input['firstname']);
 				$sth->bindParam("last_name", $input['lastname']);
 				$sth->bindParam("email", $input['email']);
-				$sth->bindParam("updated_at", $now);
 				$sth->execute();
 			} catch(PDOException $e) {
 				$container->get('logger')->info("/api/user/update Error: ".$e->getMessage().")");
