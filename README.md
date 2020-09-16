@@ -24,6 +24,16 @@ API Rest
 
 ## Install 
 1. Clone the repository
+- Configuracion de apache 
+añadir el mod_rewrite en apache 
+```sh
+a2enmod rewrite // En ubuntu 
+```
+<Directory /var/www/html/>
+        AllowOverride All
+</Directory>
+
+
 2. Install the database (database.sql)
 3. Fill the user/pass fields for database in src/settings.php
 4. Update dependencies
